@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Debt Calculator Options</title>
+    <link rel="stylesheet" href="./options.css">
+  </head>
+  <body>
+    <main class="container">
+      <h1>Debt Calculator Settings</h1>
+      <form id="settingsForm">
+        <section>
+          <h2>Profile</h2>
+          <label>
+            Date of birth
+            <input type="date" id="dobISO" required>
+          </label>
+          <label>
+            Accrual start date
+            <input type="date" id="startDateISO" required>
+          </label>
+          <label>
+            Daily rate
+            <input type="number" id="dailyRate" min="0" step="1" required>
+          </label>
+          <label>
+            Currency
+            <input type="text" id="currency" value="USD" maxlength="6">
+          </label>
+        </section>
+
+        <section>
+          <h2>Target</h2>
+          <div class="row">
+            <label><input type="radio" name="targetMode" value="date" checked> Target date</label>
+            <label><input type="radio" name="targetMode" value="age"> Target age</label>
+          </div>
+          <div id="targetDateRow">
+            <label>
+              Target date
+              <input type="date" id="targetDateISO">
+            </label>
+          </div>
+          <div id="targetAgeRow" class="hidden">
+            <label>
+              Target age (years)
+              <input type="number" id="targetAgeYears" min="0" step="1">
+            </label>
+          </div>
+        </section>
+
+        <section>
+          <h2>Storage</h2>
+          <label>
+            Storage backend
+            <select id="storageBackend">
+              <option value="sync">Chrome Sync (cross-device)</option>
+              <option value="local">Local (this profile only)</option>
+            </select>
+          </label>
+        </section>
+
+        <div class="actions">
+          <button type="submit">Save</button>
+          <button type="button" id="exportBtn">Export</button>
+          <label class="importLabel">
+            Import
+            <input type="file" id="importFile" accept="application/json">
+          </label>
+        </div>
+      </form>
+      <p class="hint">Days/debt computed at UTC midnight for simplicity.</p>
+    </main>
+    <script type="module" src="./options.js"></script>
+  </body>
+  </html>
+
+

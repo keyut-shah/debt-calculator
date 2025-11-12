@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Debt Calculator",
+  "version": "1.0.0",
+  "description": "Track age, accruing debt (+10,000/day), add lump-sum credits, and days left to a target date or target age.",
+  "permissions": [
+    "storage",
+    "alarms"
+  ],
+  "action": {
+    "default_title": "Debt Calculator",
+    "default_popup": "src/popup/popup.html"
+  },
+  "options_ui": {
+    "page": "src/options/options.html",
+    "open_in_tab": true
+  },
+  "background": {
+    "service_worker": "src/background.js",
+    "type": "module"
+  }
+}
+
+
