@@ -68,5 +68,3 @@ document.getElementById('creditForm').addEventListener('submit', async (e) => {
 });
 
 render();
-
-

@@ -3,15 +3,21 @@ import { startOfUTCDay, addYearsCalendarAccurate } from './date.js';
 /**
  * @param {number} dailyRate
  * @param {string} startIso
- * @param {{amount:number}[]} credits
+ * @param {{amount:number, type: 'credit'|'debit'}[]} transactions
  * @param {Date=} now
  */
-export function computeDebt(dailyRate, startIso, credits, now = new Date()) {
+export function computeDebt(dailyRate, startIso, transactions, now = new Date()) {
   const start = startOfUTCDay(new Date(startIso));
   const today = startOfUTCDay(now);
   const daysElapsed = Math.max(0, Math.floor((today.getTime() - start.getTime()) / 86400000));
-  const credited = (credits || []).reduce((s, c) => s + Math.max(0, Number(c.amount) || 0), 0);
-  return Math.max(0, dailyRate * daysElapsed - credited);
+
+  const credits = (transactions || []).filter(t => t.type === 'credit');
+  const debits = (transactions || []).filter(t => t.type === 'debit');
+
+  const credited = credits.reduce((s, c) => s + Math.max(0, Number(c.amount) || 0), 0);
+  const debited = debits.reduce((s, d) => s + Math.max(0, Number(d.amount) || 0), 0);
+
+  return Math.max(0, dailyRate * daysElapsed + debited - credited);
 }
 
 /**

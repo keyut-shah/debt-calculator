@@ -70,6 +70,53 @@
           </label>
         </div>
       </form>
+
+      <section>
+        <h2>Add Credit</h2>
+        <form id="creditForm">
+            <label>
+                Amount
+                <input type="number" id="creditAmount" placeholder="Amount" required>
+            </label>
+            <label>
+                Note
+                <input type="text" id="creditNote" placeholder="Note (optional)">
+            </label>
+            <button type="submit">Add Credit</button>
+        </form>
+      </section>
+
+      <section>
+        <h2>Add Debit</h2>
+        <form id="debitForm">
+            <label>
+                Amount
+                <input type="number" id="debitAmount" placeholder="Amount" required>
+            </label>
+            <label>
+                Note
+                <input type="text" id="debitNote" placeholder="Note (optional)">
+            </label>
+            <button type="submit">Add Debit</button>
+        </form>
+      </section>
+
+      <section>
+        <h2>Transaction History</h2>
+        <table id="creditHistoryTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Note</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="creditsHistoryList"></tbody>
+        </table>
+      </section>
+
       <p class="hint">Days/debt computed at UTC midnight for simplicity.</p>
     </main>
     <script type="module" src="./options.js"></script>

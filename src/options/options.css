@@ -13,4 +13,12 @@ input[type="date"], input[type="number"], input[type="text"], select { width: 26
 .importLabel input { display: none; }
 .hint { opacity: 0.7; font-size: 12px; margin-top: 16px; }
 
+.credit-amount {
+    color: green;
+}
+
+.debit-amount {
+    color: red;
+}
+
 

@@ -9,7 +9,7 @@ const DEFAULTS = {
     storageBackend: "sync",
     currency: "USD"
   },
-  credits: []
+  transactions: [] // Renamed from credits
 };
 
 function getArea(storageBackend) {
@@ -27,32 +27,46 @@ export async function saveSettings(settings) {
   await area.set({ settings });
 }
 
-export async function loadCredits(storageBackend) {
+export async function saveTransactions(transactions, storageBackend) { // Renamed from saveCredits
   const area = getArea(storageBackend || DEFAULTS.settings.storageBackend);
-  const res = await area.get(['credits']);
-  return Array.isArray(res.credits) ? res.credits : [];
+  await area.set({ transactions }); // Renamed from credits
 }
 
-export async function addCredit(amount, note, storageBackend) {
+export async function loadTransactions(storageBackend) { // Renamed from loadCredits
   const area = getArea(storageBackend || DEFAULTS.settings.storageBackend);
-  const credits = await loadCredits(storageBackend);
-  const credit = {
+  const res = await area.get(['transactions']); // Renamed from credits
+  return Array.isArray(res.transactions) ? res.transactions : []; // Renamed from credits
+}
+
+export async function addTransaction(amount, note, type, storageBackend) { // New function
+  const area = getArea(storageBackend || DEFAULTS.settings.storageBackend);
+  const transactions = await loadTransactions(storageBackend); // Renamed from credits
+  const transaction = {
     id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2),
     timestamp: Date.now(),
     amount: Number(amount) || 0,
-    note: note || ""
+    note: note || "",
+    type: type // 'credit' or 'debit'
   };
-  credits.push(credit);
-  await area.set({ credits });
-  return credit;
+  transactions.push(transaction);
+  await area.set({ transactions }); // Renamed from credits
+  return transaction;
+}
+
+export async function addCredit(amount, note, storageBackend) {
+  return addTransaction(amount, note, 'credit', storageBackend);
+}
+
+export async function addDebit(amount, note, storageBackend) {
+  return addTransaction(amount, note, 'debit', storageBackend);
 }
 
 export async function exportAll(storageBackend) {
   const area = getArea(storageBackend || DEFAULTS.settings.storageBackend);
-  const res = await area.get(['settings', 'credits']);
+  const res = await area.get(['settings', 'transactions']); // Renamed from credits
   return {
     settings: { ...DEFAULTS.settings, ...(res.settings || {}) },
-    credits: Array.isArray(res.credits) ? res.credits : []
+    transactions: Array.isArray(res.transactions) ? res.transactions : [] // Renamed from credits
   };
 }
 
@@ -61,7 +75,7 @@ export async function importAll(data) {
   const backend = getArea(settings.storageBackend || DEFAULTS.settings.storageBackend);
   await backend.set({
     settings,
-    credits: Array.isArray(data.credits) ? data.credits : []
+    transactions: Array.isArray(data.transactions) ? data.transactions : [] // Renamed from credits
   });
 }
 
